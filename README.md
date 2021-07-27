@@ -242,7 +242,7 @@
 		kubectl apply -f kubernetes/service.yam        #aws service 등록
 	
 	
-![image](https://user-images.githubusercontent.com/45377807/127103384-4269617a-5795-41c8-93e1-ed344403fb0b.png)
+![image](https://user-images.githubusercontent.com/45377807/127107944-da741118-2b28-400d-a499-d7fe72d970d3.png)
 ![image](https://user-images.githubusercontent.com/45377807/127106840-4da09f88-f4b5-41c7-a7b6-a44824df87a9.png)
 
 
