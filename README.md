@@ -28,7 +28,7 @@
 
 ### 이벤트스토밍
 
-- url: http://www.msaez.io/#/storming/wf1WRjEyVVWd1Abldu2nsM6FwbL2/58c36eee763868e2a4b6cc1f019683fe
+- url: http://www.msaez.io/#/storming/wf1WRjEyVVWd1Abldu2nsM6FwbL2/e7974643da20e8427e1f1943d1c115e9
 
 
 ### 이벤트 도출
@@ -230,6 +230,18 @@
 
 
 ## 3. 운영
+### CI/CD 설정
+- 각 서비스별 package, build, dockerhub push
+
+	cd order 이동
+	mvn package -B -Dmaven.test.skip=true #패키지
+	docker build -t 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2 . #도커 빌드
+	docker push 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2       #도커 푸쉬
+	kubectl apply -f kubernetes/deployment.yml     #aws deploy 수행
+	kubectl apply -f kubernetes/service.yam        #aws service 등록
+![image](https://user-images.githubusercontent.com/45377807/127103384-4269617a-5795-41c8-93e1-ed344403fb0b.png)
+
+
 
 ### Pod생성 시 Liveness 와 Readiness Probe를 적용했는가?
 ##### Zero-downtime deploy(Readiness Probe 적용)
@@ -257,109 +269,6 @@
 		    failureThreshold: 5   
 
 <img width="1000" alt="Liveness Probe 수행" src="https://user-images.githubusercontent.com/45377807/125291419-59eaf980-e35c-11eb-90f4-edd1130c04c7.png"><br/>
-
-
-
-
-#### 서킷브레이커 설정
-##### OrderService.java
-
-	@Transactional
-		public Order getOrderService(StoreOrderAccepted storeOrderAcceptedObj) throws Exception {
-
-			System.out.println("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ getOrderService start "+System.currentTimeMillis()+"□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□");
-
-			try {
-				Optional<Order> tempObj =  orderRepository.findById(storeOrderAcceptedObj.getOrderId());
-
-				Order orderObj = new Order();
-
-		    try {
-		    System.out.println("\n\n\n\n\n\nWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITINGWAITING");
-
-		       Thread.currentThread().sleep((long) (400 + Math.random() * 220));
-		    } catch (InterruptedException e) {
-			e.printStackTrace();
-		    }
-
-				if(tempObj.isPresent()){
-					orderObj = tempObj.get();
-
-					orderObj.setOrderStatus(storeOrderAcceptedObj.getOrderStatus());
-
-					orderRepository.save(orderObj);
-
-					return orderObj;		
-				}else{
-					return null ;
-				}
-
-			} catch (Exception e) {
-				System.out.println("save Order Error" +e.getStackTrace());
-
-				return null;
-			}
-		}
-
-	 }//classOrderPlacedService
-
-	Store
-
-	Application.yml
-
-	feign:
-	  hystrix:
-	    enabled: true
-
-	# To set thread isolation to SEMAPHORE
-	#hystrix:
-	#  command:
-	#    default:
-	#      execution:
-	#        isolation:
-	#          strategy: SEMAPHORE
-
-	hystrix:
-	  command:
-	    # 전역설정
-	    default:
-	      execution.isolation.thread.timeoutInMilliseconds: 610
-
-
-<img width="1000" alt="써킷브레이커-1" src="https://user-images.githubusercontent.com/45377807/125397429-e3480d80-e3e8-11eb-8e8c-e49329bcf9b9.JPG"><br/>
-
-
-#### 오토스케일러(HPA)
-<img width="1000" alt="HPA(Autoscaling)_발췌" src="https://user-images.githubusercontent.com/45377807/125291395-5192be80-e35c-11eb-9a6a-a44c133427c8.png"><br/>
-
-
-#### 모니터링, 앨러팅
-##### Kiali
-<img width="800" alt="모니터링_kiali" src="https://user-images.githubusercontent.com/45377807/125376611-5e4bfc80-e3c6-11eb-97e9-1b83e68d207e.png"><br/>
-
-
-##### Jaeger
-<img width="800" alt="모니터링_예거" src="https://user-images.githubusercontent.com/45377807/125376614-6015c000-e3c6-11eb-8112-deb54075ba48.png"><br/>
-
-
-
-### CI/CD 설정
-#### AWS Code Build 적용됐는가?
-
-
-##### buildspec-kubectl.yaml 파일
-<img width="400" alt="빌드스펙yaml파일" src="https://user-images.githubusercontent.com/45377807/125326441-02a95100-e37d-11eb-8db8-1130577a0cff.png"><br/>
-
-##### 빌드 성공
-<img width="800" alt="코드빌드1" src="https://user-images.githubusercontent.com/45377807/125326080-9e868d00-e37c-11eb-9cdb-093edb64efaf.png"><br/>
-<img width="800" alt="코드빌드2" src="https://user-images.githubusercontent.com/45377807/125326094-a0e8e700-e37c-11eb-8263-0babce52cb25.png"><br/>
-
-                
-### 운영 유연성
-#### Config Map / Secret
-ConfigMap은 Persistent Volume 으로 구현
-<img width="1367" alt="PV 할당" src="https://user-images.githubusercontent.com/45377807/125376098-3e680900-e3c5-11eb-909d-79f359a9fa57.png"><br/>
-<img width="1366" alt="pod 내 volume 마운트" src="https://user-images.githubusercontent.com/45377807/125376100-4162f980-e3c5-11eb-9585-9f01a8afe4ed.png"><br/>
 
 
 
