@@ -106,97 +106,100 @@
 
 ### DDD 적용
 
---|MSA|기능|포트|URL|
---|Order|주문관리|8081|http://localhost:8081/orders/|
---|Pay|결제관리|8082|http://localhost:8082/pays/|
---|Store|주문접수 및 거절|8083|http://localhost:8083/stores/|
---|Customer|고객관리|8084|http://localhost:8084/customers/|
---|delivery|배달관리|8085|http://localhost:8085/deliveries/|
+|MSA|기능|포트|URL|
+| :--: | :--: | :--: | :--: |
+|Order|주문관리|8081|http://localhost:8081/orders/|
+|Pay|결제관리|8082|http://localhost:8082/pays/|
+|Store|주문접수 및 거절|8083|http://localhost:8083/stores/|
+|Customer|고객관리|8084|http://localhost:8084/customers/|
+|delivery|배달관리|8085|http://localhost:8085/deliveries/|
 
 
-### Gateway 적용 -- Gateway > src> main > resources > application.yml
-	server:
-	  port: 8088
+### Gateway 적용 
+- Gateway > src> main > resources > application.yml
 
-	---
+		server:
+		  port: 8088
 
-	spring:
-	  profiles: default
-	  cloud:
-	    gateway:
-	      routes:
-		- id: order
-		  uri: http://localhost:8081
-		  predicates:
-		    - Path=/orders/** 
-		- id: pay
-		  uri: http://localhost:8082
-		  predicates:
-		    - Path=/pays/** 
-		- id: store
-		  uri: http://localhost:8083
-		  predicates:
-		    - Path=/stores/** 
-		- id: customer
-		  uri: http://localhost:8084
-		  predicates:
-		    - Path=/customers/** /myPages/**
-		- id: delivery
-		  uri: http://localhost:8085
-		  predicates:
-		    - Path=/deliveries/** 
-	      globalcors:
-		corsConfigurations:
-		  '[/**]':
-		    allowedOrigins:
-		      - "*"
-		    allowedMethods:
-		      - "*"
-		    allowedHeaders:
-		      - "*"
-		    allowCredentials: true
+		---
+
+		spring:
+		  profiles: default
+		  cloud:
+		    gateway:
+		      routes:
+			- id: order
+			  uri: http://localhost:8081
+			  predicates:
+			    - Path=/orders/** 
+			- id: pay
+			  uri: http://localhost:8082
+			  predicates:
+			    - Path=/pays/** 
+			- id: store
+			  uri: http://localhost:8083
+			  predicates:
+			    - Path=/stores/** 
+			- id: customer
+			  uri: http://localhost:8084
+			  predicates:
+			    - Path=/customers/** /myPages/**
+			- id: delivery
+			  uri: http://localhost:8085
+			  predicates:
+			    - Path=/deliveries/** 
+		      globalcors:
+			corsConfigurations:
+			  '[/**]':
+			    allowedOrigins:
+			      - "*"
+			    allowedMethods:
+			      - "*"
+			    allowedHeaders:
+			      - "*"
+			    allowCredentials: true
 
 
-	---
+		---
 
-	spring:
-	  profiles: docker
-	  cloud:
-	    gateway:
-	      routes:
-		- id: order
-		  uri: http://order:8080
-		  predicates:
-		    - Path=/orders/**
-		- id: pay
-		  uri: http://pay:8080
-		  predicates:
-		    - Path=/pays/**             
-		- id: store
-		  uri: http://store:8080
-		  predicates:
-		    - Path=/stores/** 
-		- id: customer
-		  uri: http://customer:8080
-		  predicates:
-		    - Path=/customers/** /myPages/**
-		- id: delivery
-		  uri: http://delivery:8080
-		  predicates:
-		    - Path=/deliveries/** 
-	      globalcors:
-		corsConfigurations:
-		  '[/**]':
-		    allowedOrigins:
-		      - "*"
-		    allowedMethods:
-		      - "*"
-		    allowedHeaders:
-		      - "*"
-		    allowCredentials: true
+		spring:
+		  profiles: docker
+		  cloud:
+		    gateway:
+		      routes:
+			- id: order
+			  uri: http://order:8080
+			  predicates:
+			    - Path=/orders/**
+			- id: pay
+			  uri: http://pay:8080
+			  predicates:
+			    - Path=/pays/**             
+			- id: store
+			  uri: http://store:8080
+			  predicates:
+			    - Path=/stores/** 
+			- id: customer
+			  uri: http://customer:8080
+			  predicates:
+			    - Path=/customers/** /myPages/**
+			- id: delivery
+			  uri: http://delivery:8080
+			  predicates:
+			    - Path=/deliveries/** 
+		      globalcors:
+			corsConfigurations:
+			  '[/**]':
+			    allowedOrigins:
+			      - "*"
+			    allowedMethods:
+			      - "*"
+			    allowedHeaders:
+			      - "*"
+			    allowCredentials: true
 
-	server:
-	  port: 8080
+		server:
+		  port: 8080
 
 ### 폴리글랏 퍼시스턴스
 신규서비스인 Delivery 서비스만 DB를 구분 적용(mariaDB 적용)
@@ -222,10 +225,6 @@
 ![image](https://user-images.githubusercontent.com/45377807/127099630-08ae8efb-aa5f-4c1f-9993-473395432c37.png)
 ![image](https://user-images.githubusercontent.com/45377807/127100782-4039520f-0a9e-494c-9d4d-e23ab3ab358e.png)
 
-
-
-#### Scaling-out
-<img width="1000" alt="HPA(Autoscaling)_발췌" src="https://user-images.githubusercontent.com/45377807/125291395-5192be80-e35c-11eb-9a6a-a44c133427c8.png"><br/>
 
 
 
