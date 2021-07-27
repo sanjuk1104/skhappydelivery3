@@ -1,7 +1,9 @@
-# SK Happy Delivery
+# Azer Delivery
+![image](https://user-images.githubusercontent.com/45377807/127104059-e6e79c97-a0fb-4153-9bf0-46251cb72683.png)
+
 
 ## 서비스 시나리오
-### SK행복 배달 서비스
+### 아제르 배달 서비스
 
 ####기능적 요구사항
 - 고객이 메뉴를 선택하여 주문한다
@@ -202,7 +204,7 @@
 		  port: 8080
 
 ### 폴리글랏 퍼시스턴스
-신규서비스인 Delivery 서비스만 DB를 구분 적용(mariaDB 적용)
+신규서비스인 Delivery 서비스만 DB를 구분 적용(DB 적용)
 
 	<!--
 			<dependency>
