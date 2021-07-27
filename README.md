@@ -242,6 +242,8 @@
 	kubectl apply -f kubernetes/service.yam        #aws service 등록
 ![image](https://user-images.githubusercontent.com/45377807/127103384-4269617a-5795-41c8-93e1-ed344403fb0b.png)
 
+- 최종 Deploy완료
+![image](https://user-images.githubusercontent.com/45377807/127104411-ec4ed780-5a19-4ae9-9481-2f7965099c56.png)
 
 
 ### Pod생성 시 Liveness 와 Readiness Probe를 적용했는가?
