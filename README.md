@@ -241,6 +241,8 @@
 	kubectl apply -f kubernetes/deployment.yml     #aws deploy 수행
 	kubectl apply -f kubernetes/service.yam        #aws service 등록
 ![image](https://user-images.githubusercontent.com/45377807/127103384-4269617a-5795-41c8-93e1-ed344403fb0b.png)
+![image](https://user-images.githubusercontent.com/45377807/127106694-4ae09463-a432-412e-b79d-5c025a3b32d3.png)
+
 
 - 최종 Deploy완료
 ![image](https://user-images.githubusercontent.com/45377807/127104411-ec4ed780-5a19-4ae9-9481-2f7965099c56.png)
