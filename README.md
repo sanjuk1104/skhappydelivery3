@@ -10,6 +10,7 @@
 - 상점주인은 주문을 승인할 수 있다.
 - 상점주인은 주문을 거절할 수 있다.
 - 상점주인이 확인하여 주문을 접수하여 조리를 시작한다
+**- 조리가 끝나면 배달이 시작된다.**
 - 고객이 주문을 취소할 수 있다
 - 결제가 취소되면 상점에도 전달된다.
 - 주문상태가 이벤트 발생시 마다 업데이트되어 View를 통해 보여진다
@@ -17,7 +18,7 @@
 #### 비기능적 요구사항
 ##### 트랜잭션
 - 주문이 되면 무조건 결제에 데이터가 저장된다. Sync 호출
-- 상점주인이 주문을 승인하면 배달되어질 정보를 Order에서 가져와 저장된다.
+- 상점주인이 주문을 승인하면 배달되어질 정보를 Order에서 가져와 저장한다.
 
 ##### 장애격리
 - 상점관리 기능이 수행되지 않더라도 주문은 365일 24시간 받을 수 있어야 한다 Async (event-driven), Eventual Consistency
@@ -31,32 +32,44 @@
 
 
 ### 이벤트 도출
-
-<img width="900" alt="이벤트도출" src="https://user-images.githubusercontent.com/45377807/125230473-ca215d00-e313-11eb-8866-2bdbfd5480be.png"><br/>
-
-
+![이벤트 추출](https://user-images.githubusercontent.com/45377807/127094277-43ca3827-c6a9-4621-a446-79f1794088b7.PNG)
 
 
 ### 액터, 커맨드 부착
-<img width="650" alt="액터 및 커맨드 부착" src="https://user-images.githubusercontent.com/45377807/125232032-c3e0b000-e316-11eb-8af4-cf98f7b97dac.png"><br/>
+![오더_2](https://user-images.githubusercontent.com/45377807/127094294-c972a961-dcf5-4472-927e-9ded9fa5742d.PNG)
+![페이_2](https://user-images.githubusercontent.com/45377807/127094306-28726ddb-f624-499b-b3b6-d2bf6b6740e7.PNG)
+![스토어_2](https://user-images.githubusercontent.com/45377807/127094316-27bcf99d-17ac-443d-bf40-dbc41a8facde.PNG)
+![커스토머_2](https://user-images.githubusercontent.com/45377807/127094328-040ff6b7-eae0-4658-acfd-8d78b4c99100.PNG)
+![딜리버리_2](https://user-images.githubusercontent.com/45377807/127094332-66874532-eebe-4c58-9c95-5b241bbdb83c.PNG)
  
 
 ### 폴리시 부착
-<img width="650" alt="폴리시 추가" src="https://user-images.githubusercontent.com/45377807/125399202-3ae77880-e3eb-11eb-9152-2f069f7f553f.png">
+![오더_1](https://user-images.githubusercontent.com/45377807/127093931-17f62510-6701-4b92-9e04-d451fc0d1780.PNG)
+![페이_1](https://user-images.githubusercontent.com/45377807/127093943-b9f35d30-4d93-4ac7-9247-9a9037385e93.PNG)
+![스토어_1](https://user-images.githubusercontent.com/45377807/127093954-62f7cf79-b6e8-42e6-a362-e9f3d10b053e.PNG)
+![커스토머_1](https://user-images.githubusercontent.com/45377807/127093957-f7fce2f0-8b60-4684-a53d-171a6fd8ba56.PNG)
+![딜리버리_1](https://user-images.githubusercontent.com/45377807/127093968-7706168b-50fb-45b9-a317-0c8f95ce5bb9.PNG)
+
 
 
 
 ### 어그리게잇 묶기
-<img width="650" alt="어그리게잇으로 묶기" src="https://user-images.githubusercontent.com/45377807/125399214-3de26900-e3eb-11eb-886f-465414fcf4db.png">
+![오더](https://user-images.githubusercontent.com/45377807/127093725-8ce10916-137f-4bc4-a35e-d9a40e239aa3.PNG)
+![페이](https://user-images.githubusercontent.com/45377807/127093732-39809f37-b972-41f9-8695-fa69275d2bdd.PNG)
+![스토어](https://user-images.githubusercontent.com/45377807/127093743-44b16652-6018-4520-9d51-da7d46f2fc4b.PNG)
+![카스터머](https://user-images.githubusercontent.com/45377807/127093753-deb105ad-2304-4481-ada9-99f09f29240b.PNG)
+![딜리버리](https://user-images.githubusercontent.com/45377807/127093754-df33225c-2c2d-4bbf-bdcc-17b3c8fc0f20.PNG)
+
 
 
 ### 바운디드 컨텍스트 묶기
-<img width="814" alt="바운디드컨텍스트 묶기" src="https://user-images.githubusercontent.com/45377807/125399252-4a66c180-e3eb-11eb-9d48-b31fda1d7227.png">
+![바운디드컨텍스트 묶기](https://user-images.githubusercontent.com/45377807/127093523-bbc78fe0-7ee5-470d-be09-5c187948cdb6.PNG)
+
 
 
 
 ### 완성된 모형(실선은 Req/Res, 점선은 Pub/Sub)
-<img width="847" alt="이벤트스토밍 결과" src="https://user-images.githubusercontent.com/45377807/125399275-518dcf80-e3eb-11eb-8092-221a4a7fb467.png">
+![이벤트스토밍 결과](https://user-images.githubusercontent.com/45377807/127093331-338b2ab4-97ea-4fe9-a0c2-6bd9db916f9e.PNG)
 
 
 
