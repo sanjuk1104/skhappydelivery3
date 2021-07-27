@@ -74,8 +74,7 @@
 
 
 ### 헥사고날 아키텍처 다이어그램 도출
-![헥사고날아키텍쳐](https://user-images.githubusercontent.com/45377807/127095176-b07b2943-3359-4209-a5dc-b2a24848bf54.png)
-
+![헥사고날아키텍쳐](https://user-images.githubusercontent.com/45377807/127099006-d37f2eed-387c-4e11-87d3-2bc47609333e.png)
 
 <br/>
 <br/>
