@@ -87,101 +87,36 @@
 
 <img width="400" alt="메이븐 실행" src="https://user-images.githubusercontent.com/45377807/125234914-96970080-e31c-11eb-933b-7008c23038bf.png"><br/>
 
+### 시나리오 흐름
+1) 고객이 주문을 입력한다
+![image](https://user-images.githubusercontent.com/45377807/127096412-076c6b9f-03c5-4298-8cba-112283577e56.png)
 
-### Domain Driven Design의 적용
-- 각 서비스 내에 도출된 핵심 어그리게잇 객체를 엔티티로 선언했다. 이때 가능한 현업에서 사용하는 유비쿼터스 랭귀지를 사용하려 노력했다.
+2) 주문에 대한 결제를 진행한다
+![image](https://user-images.githubusercontent.com/45377807/127096540-ef6bb814-3d86-47df-9b96-b676e614d691.png)
 
+3) 스토어 주인은 결제 완료된 주문을 접수하고 요리한다
+![image](https://user-images.githubusercontent.com/45377807/127096623-12e469dc-26a5-49e5-a04f-be3e3913e6a4.png)
 
-      package skhappydelivery;
-	
-	  import javax.persistence.Entity;
-	  import javax.persistence.GeneratedValue;
-	  import javax.persistence.GenerationType;
-	  import javax.persistence.Id;
-	  import javax.persistence.PostPersist;
-	  import javax.persistence.PostUpdate;
-	  import javax.persistence.Table;
-	  
-	  import org.springframework.beans.BeanUtils;
-	  
-	  @Entity
-	  @Table(name="Order_table")
-	  public class Order {
-	
-    	@Id
-    	@GeneratedValue(strategy=GenerationType.AUTO)
-    	private Long orderId;
-    	private Long customerId;
-    	private String customerName;
-    	private String customerAddress;
-    	private Integer phoneNumber;
-    	private Long menuId;
-    	private Integer menuCount;
-    	private Integer menuPrice;
-    	private Long storeId;
-    	private String orderStatus;  
-	
-    	
-    	@PostPersist
-    	public void onPostPersist(){
-	
-   	     skhappydelivery.external.Payed Payed = new skhappydelivery.external.Payed();
-   	     // mappings goes here
-
- 	       Payed.setCustomerId(this.customerId);
- 	       Payed.setOrderId(this.orderId);
-  	      Payed.setStoreId(this.storeId);
-  	      Payed.setTotalPrice(this.menuCount * this.menuPrice);
-
- 	       OrderApplication.applicationContext.getBean(skhappydelivery.external.PayService.class)
- 	           .payed(Payed);
- 	   }
+4) 고객은 커스터머 뷰를 통해 주문 상태 등을 확인한다
+![image](https://user-images.githubusercontent.com/45377807/127097203-671b9c5e-070c-4c97-a718-9607ecf56aec.png)
+![image](https://user-images.githubusercontent.com/45377807/127097279-d8e90f27-4969-465f-8786-36dd079e6a10.png)
 
 
-	  @PostUpdate
- 	  public void onPostUpdate(){
-  	     OrderCanceled orderCanceled = new OrderCanceled();
-	
-		        //Reject >>> publish
-				if(this.orderStatus=="orderCanceled"){
-
-					BeanUtils.copyProperties(this, orderCanceled);
-
-					orderCanceled.setOrderStatus(this.orderStatus);
-			
-					System.out.println(" PUBLISH orderCanceledOBJ:  " +orderCanceled.toString());
-				
-					orderCanceled.publishAfterCommit();
-		
-				}
-	
-    			}
-	
-		}
+5) 요리 완료된 음식은 배달이 된다
+![image](https://user-images.githubusercontent.com/45377807/127097418-734eba3a-2eb4-41d2-8a04-fb903abcb797.png)
 
 
+6) 고객은 주문을 취소할 수 있다
+![image](https://user-images.githubusercontent.com/45377807/127097491-c19fdbc0-1d18-438f-b764-6de7bcd9401f.png)
 
+DDD 적용
+|MSA|기능|포트|URL|
+|Order|주문관리|8081|http://localhost:8081/orders/|
+|Pay|결제관리|8082|http://localhost:8082/pays/|
+|Store|주문접수 및 거절|8083|http://localhost:8083/stores/|
+|Customer|고객관리|8084|http://localhost:8084/customers/|
+|delivery|배달관리|8085|http://localhost:8085/deliveries/|
 
-
-
-- Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 
-별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다
-
-
-		OrderRepository.java
-		
-		package skhappydelivery;
-			
-		import org.springframework.data.repository.PagingAndSortingRepository;
-		import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-			
-		@RepositoryRestResource(collectionResourceRel="orders", path="orders")
-		public interface OrderRepository extends PagingAndSortingRepository<Order, Long>{
-			
-			
-		}
-<br/>
-<br/>
 
 ### Req/Res 방식의 서비스 중심 아키텍쳐 구현
 #### FeignClient 
