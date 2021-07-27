@@ -269,9 +269,7 @@
 		    initialDelaySeconds: 120
 		    timeoutSeconds: 2
 		    periodSeconds: 5
-		    failureThreshold: 5   
-
-<img width="1000" alt="Liveness Probe 수행" src="https://user-images.githubusercontent.com/45377807/125291419-59eaf980-e35c-11eb-90f4-edd1130c04c7.png"><br/>
+		    failureThreshold: 5
 
 
 
