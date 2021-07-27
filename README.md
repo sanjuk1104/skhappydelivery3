@@ -234,12 +234,14 @@
 ### CI/CD 설정
 - 각 서비스별 package, build, dockerhub push
 
-	cd order 이동
-	mvn package -B -Dmaven.test.skip=true #패키지
-	docker build -t 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2 . #도커 빌드
-	docker push 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2       #도커 푸쉬
-	kubectl apply -f kubernetes/deployment.yml     #aws deploy 수행
-	kubectl apply -f kubernetes/service.yam        #aws service 등록
+		cd order 이동
+		mvn package -B -Dmaven.test.skip=true #패키지
+		docker build -t 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2 . #도커 빌드
+		docker push 879772956301.dkr.ecr.ap-southeast-2.amazonaws.com/user19-order:v2       #도커 푸쉬
+		kubectl apply -f kubernetes/deployment.yml     #aws deploy 수행
+		kubectl apply -f kubernetes/service.yam        #aws service 등록
+	
+	
 ![image](https://user-images.githubusercontent.com/45377807/127103384-4269617a-5795-41c8-93e1-ed344403fb0b.png)
 ![image](https://user-images.githubusercontent.com/45377807/127106840-4da09f88-f4b5-41c7-a7b6-a44824df87a9.png)
 
